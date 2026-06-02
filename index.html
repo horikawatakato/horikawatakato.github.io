@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>horikawatakato — Portfolio</title>
+  <style>
+    :root {
+      --bg: #f6f8fa;
+      --card: #ffffff;
+      --text: #1f2328;
+      --muted: #57606a;
+      --accent: #0969da;
+      --border: #e2e4e8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", "Hiragino Sans", "Noto Sans JP", sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.8;
+      -webkit-font-smoothing: antialiased;
+    }
+    .wrap { max-width: 720px; margin: 0 auto; padding: 72px 24px 96px; }
+
+    /* Hero */
+    .hero { text-align: center; margin-bottom: 64px; }
+    .hero h1 { font-size: 2rem; letter-spacing: -.02em; }
+    .hero p { color: var(--muted); margin-top: 6px; font-size: 1.05rem; }
+
+    /* Section heading */
+    .section-title {
+      font-size: .8rem; font-weight: 700; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--muted);
+      margin-bottom: 18px; padding-left: 2px;
+    }
+
+    /* Project card */
+    .project {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: 0 1px 3px rgba(0,0,0,.04);
+      transition: box-shadow .2s ease, transform .2s ease, border-color .2s ease;
+    }
+    .project:hover {
+      box-shadow: 0 12px 32px rgba(0,0,0,.08);
+      transform: translateY(-3px);
+      border-color: #d0d7de;
+    }
+    .project h3 { font-size: 1.35rem; letter-spacing: -.01em; }
+    .project .desc { color: var(--muted); margin: 12px 0 18px; }
+
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
+    .tag {
+      font-size: .78rem; font-weight: 600; color: var(--accent);
+      background: rgba(9,105,218,.08);
+      border-radius: 999px; padding: 4px 12px;
+    }
+
+    .links { display: flex; flex-wrap: wrap; gap: 10px; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: .9rem; font-weight: 600; text-decoration: none;
+      padding: 9px 16px; border-radius: 10px; transition: all .15s ease;
+    }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: #0860ca; }
+    .btn-ghost { background: transparent; color: var(--accent); border: 1px solid var(--border); }
+    .btn-ghost:hover { background: rgba(9,105,218,.06); border-color: var(--accent); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <h1>horikawatakato</h1>
+      <p>ポートフォリオ / 制作物まとめ</p>
+    </header>
+
+    <p class="section-title">Projects</p>
+
+    <article class="project">
+      <h3>datecalc</h3>
+      <p class="desc">
+        日数計算を行う Web アプリケーションです。<br>
+        AWS ECS on EC2 でコンテナ運用し、GitHub Actions による CI/CD を構築しています。
+      </p>
+      <div class="tags">
+        <span class="tag">Web App</span>
+        <span class="tag">AWS ECS on EC2</span>
+        <span class="tag">Docker</span>
+        <span class="tag">GitHub Actions</span>
+        <span class="tag">CI/CD</span>
+      </div>
+      <div class="links">
+        <a class="btn btn-primary" href="https://horikawatakato.github.io/datecalc">デモを見る</a>
+        <a class="btn btn-ghost" href="https://github.com/horikawatakato/datecalc">リポジトリを見る</a>
+      </div>
+    </article>
+  </div>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>horikawatakato — Portfolio</title>
+  <style>
+    :root {
+      --bg: #f6f8fa;
+      --card: #ffffff;
+      --text: #1a1d21;
+      --muted: #444c55;
+      --accent: #0969da;
+      --border: #e2e4e8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", "Hiragino Sans", "Noto Sans JP", sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.85;
+      letter-spacing: .01em;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      min-height: 100vh;
+    }
+    .wrap {
+      width: 100%;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 56px 24px 72px;
+    }
+
+    /* Hero */
+    .hero {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .hero h1 { font-size: 2.4rem; letter-spacing: -.02em; }
+    .hero p { color: var(--muted); margin-top: 6px; font-size: 1.05rem; }
+
+    /* Section heading */
+    .section-title {
+      font-size: .8rem; font-weight: 700; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--muted);
+      margin-bottom: 18px; padding-left: 2px;
+    }
+
+    /* Project card */
+    .project {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 36px 34px;
+      box-shadow: 0 1px 3px rgba(0,0,0,.04);
+      transition: box-shadow .2s ease, transform .2s ease, border-color .2s ease;
+    }
+    .project:hover {
+      box-shadow: 0 12px 32px rgba(0,0,0,.08);
+      transform: translateY(-3px);
+      border-color: #d0d7de;
+    }
+    .project h3 { font-size: 1.6rem; letter-spacing: -.01em; }
+
+    /* Title + description + primary action */
+    .desc-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin: 12px 0 28px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+    .project .desc { color: var(--muted); margin: 0; flex: 1 1 240px; }
+    .desc-row .btn { flex: 0 0 auto; }
+
+    .subhead {
+      font-size: 1rem; font-weight: 700; color: var(--text);
+      margin-bottom: 10px; letter-spacing: .02em;
+    }
+    .features { list-style: none; margin: 0 0 26px; }
+    .features li {
+      position: relative; padding-left: 22px; color: var(--muted);
+      font-size: 1rem; line-height: 1.8; margin-bottom: 7px;
+    }
+    .features li::before {
+      content: ""; position: absolute; left: 4px; top: .78em;
+      width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+    }
+
+    .tags { display: flex; flex-wrap: wrap; gap: 9px; margin-bottom: 28px; }
+    .tag {
+      font-size: .85rem; font-weight: 600; color: var(--accent);
+      background: rgba(9,105,218,.08);
+      border-radius: 999px; padding: 5px 13px;
+    }
+
+    .links { display: flex; flex-wrap: wrap; gap: 10px; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      font-size: 1rem; font-weight: 600; line-height: 1.4; text-decoration: none;
+      padding: 9px 16px; min-height: 40px; border-radius: 10px; transition: all .15s ease;
+    }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: #0860ca; }
+    .btn-ghost { background: transparent; color: var(--accent); border: 1px solid var(--border); }
+    .btn-ghost:hover { background: rgba(9,105,218,.06); border-color: var(--accent); }
+
+    @media (max-width: 480px) {
+      .wrap { padding: 40px 16px 56px; }
+      .project { padding: 28px 22px; }
+      .hero h1 { font-size: 2rem; }
+      .project h3 { font-size: 1.4rem; }
+      .desc-row .btn, .links .btn { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <h1>Horikawa Takato</h1>
+    </header>
+
+    <article class="project">
+      <h3>日数計算機</h3>
+      <div class="desc-row">
+        <p class="desc">日数計算を行うWebアプリケーション</p>
+        <a class="btn btn-primary" href="http://ec2-3-114-247-73.ap-northeast-1.compute.amazonaws.com">アプリを使う</a>
+      </div>
+
+      <p class="subhead">主な機能</p>
+      <ul class="features">
+        <li>現在の日付と入力日付の差分を日数で表示（365日以上は年数も併記）</li>
+        <li>紀元前999年〜西暦9999年に対応（紀元前の年は負数で入力）</li>
+        <li>曜日の表示</li>
+      </ul>
+
+      <p class="subhead">主な使用技術</p>
+      <ul class="features">
+        <li>AWS ECS on EC2でNginxをリバースプロキシに使用したコンテナ構成を構築</li>
+        <li>GitHub Actionsでテスト→ビルド→プッシュ→デプロイを自動化したCI/CDパイプラインを構築</li>
+      </ul>
+
+      <div class="tags">
+        <span class="tag">AWS ECS on EC2</span>
+        <span class="tag">GitHub Actions</span>
+        <span class="tag">CI/CD</span>
+        <span class="tag">GitHub Container Registry</span>
+        <span class="tag">Docker</span>
+        <span class="tag">Nginx</span>
+        <span class="tag">Gunicorn</span>
+        <span class="tag">Flask</span>
+        <span class="tag">Python</span>
+      </div>
+
+      <div class="links">
+        <a class="btn btn-primary" href="https://github.com/horikawatakato/datecalc">使用技術とプロジェクトの詳細はこちら</a>
+      </div>
+    </article>
+  </div>
+</body>
+</html>

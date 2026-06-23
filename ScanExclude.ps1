@@ -195,27 +195,27 @@ function Resolve-ScanConfig {
     [CmdletBinding()]
     param(
         $MinTotal,
+        $RateWindowMin,
+        $RatePerMin,
         $MinPath,
         $Count404,
         $Ratio200,
         $ErrCount,
         $ErrRatio,
-        $BrutePath,
-        $BruteAuthErr,
-        $AuthRegex,
-        $RatePerMin,
         $Err5xxWeight,
-        $RateWindowMin,
+        $BrutePath,
         $BrutePost,
+        $BruteAuthErr,
         $LoginFormRegex,
-        $BruteAuthVariety,
-        $AuthSuccessRatioMax,
-        $ApiAuthRegex,
         $SigRegex,
         $ExploitRegex,
         $ProxyRegex,
         $BadMethodRegex,
-        $ProtoRegex
+        $ProtoRegex,
+        $BruteAuthVariety,
+        $AuthSuccessRatioMax,
+        $AuthRegex,
+        $ApiAuthRegex
     )
 
     if ($null -eq $MinTotal)            { $MinTotal            = 30 }
@@ -228,22 +228,12 @@ function Resolve-ScanConfig {
     if ($null -eq $ErrRatio)            { $ErrRatio            = 0.5 }
     if ($null -eq $Err5xxWeight)        { $Err5xxWeight        = 0.5 }
     if ($null -eq $BrutePath)           { $BrutePath           = 50 }
-    if ($null -eq $BruteAuthErr)        { $BruteAuthErr        = 20 }
     if ($null -eq $BrutePost)           { $BrutePost           = 20 }
-    if ($null -eq $BruteAuthVariety)    { $BruteAuthVariety    = 3 }
-    if ($null -eq $AuthSuccessRatioMax) { $AuthSuccessRatioMax = 0.5 }
+    if ($null -eq $BruteAuthErr)        { $BruteAuthErr        = 20 }
 
-    # 正規ログインURL（ログイン探索の種類数集計に使用）。
-    if ([string]::IsNullOrWhiteSpace($AuthRegex)) {
-        $AuthRegex = '(?i)(/admin|/login|/signin|/user/login|/api/(login|auth|token|session|oauth)|/graphql)'
-    }
     # 総当たりの集中パス判定に使うログインフォーム。プログラム的・管理操作で多数POSTされ得るパスは含めない。
     if ([string]::IsNullOrWhiteSpace($LoginFormRegex)) {
         $LoginFormRegex = '(?i)(/login|/signin|/user/login|/admin/login|wp-login|/administrator/index)'
-    }
-    # ログイン探索の種類数集計から除外する API 認証エンドポイント。
-    if ([string]::IsNullOrWhiteSpace($ApiAuthRegex)) {
-        $ApiAuthRegex = '(?i)/api/(login|auth|token|session|oauth)'
     }
     # 攻撃ファイルパス。
     if ([string]::IsNullOrWhiteSpace($SigRegex)) {
@@ -266,29 +256,41 @@ function Resolve-ScanConfig {
         $ProtoRegex = '(?i)(SMBr|\\xFESMB|\\xFFSMB|Gh0st|mining\.subscribe|mining\.authorize)'
     }
 
+    if ($null -eq $BruteAuthVariety)    { $BruteAuthVariety    = 3 }
+    if ($null -eq $AuthSuccessRatioMax) { $AuthSuccessRatioMax = 0.5 }
+
+    # 正規ログインURL（ログイン探索の種類数集計に使用）。
+    if ([string]::IsNullOrWhiteSpace($AuthRegex)) {
+        $AuthRegex = '(?i)(/admin|/login|/signin|/user/login|/api/(login|auth|token|session|oauth)|/graphql)'
+    }
+    # ログイン探索の種類数集計から除外する API 認証エンドポイント。
+    if ([string]::IsNullOrWhiteSpace($ApiAuthRegex)) {
+        $ApiAuthRegex = '(?i)/api/(login|auth|token|session|oauth)'
+    }
+
     [pscustomobject]@{
         MinTotal            = [int]$MinTotal
+        RateWindowMin       = [double]$RateWindowMin
+        RatePerMin          = [double]$RatePerMin
         MinPath             = [int]$MinPath
         Count404            = [int]$Count404
         Ratio200            = [double]$Ratio200
         ErrCount            = [int]$ErrCount
         ErrRatio            = [double]$ErrRatio
-        BrutePath           = [int]$BrutePath
-        BruteAuthErr        = [int]$BruteAuthErr
-        AuthRegex           = [string]$AuthRegex
-        RatePerMin          = [double]$RatePerMin
         Err5xxWeight        = [double]$Err5xxWeight
-        RateWindowMin       = [double]$RateWindowMin
+        BrutePath           = [int]$BrutePath
         BrutePost           = [int]$BrutePost
+        BruteAuthErr        = [int]$BruteAuthErr
         LoginFormRegex      = [string]$LoginFormRegex
-        BruteAuthVariety    = [int]$BruteAuthVariety
-        AuthSuccessRatioMax = [double]$AuthSuccessRatioMax
-        ApiAuthRegex        = [string]$ApiAuthRegex
         SigRegex            = [string]$SigRegex
         ExploitRegex        = [string]$ExploitRegex
         ProxyRegex          = [string]$ProxyRegex
         BadMethodRegex      = [string]$BadMethodRegex
         ProtoRegex          = [string]$ProtoRegex
+        BruteAuthVariety    = [int]$BruteAuthVariety
+        AuthSuccessRatioMax = [double]$AuthSuccessRatioMax
+        AuthRegex           = [string]$AuthRegex
+        ApiAuthRegex        = [string]$ApiAuthRegex
     }
 }
 

@@ -268,15 +268,14 @@ try {
 # 0件のときは exclude-ip.txt は変更せず、additional-exclude-ip.txt も生成しない（前回分が残っていれば削除）。
 
 # しきい値設定を組み立てる（env.ps1 の上書き値を渡し、未設定は ScanExclude.ps1 側の既定値で補完）。
-$scanConfig = Resolve-ScanConfig -MinTotal $ScanMinTotal -MinPath $ScanMinPath `
-    -Count404 $Scan404Count -Ratio200 $Scan200Ratio -ErrCount $ScanErrCount `
-    -ErrRatio $ScanErrRatio -BrutePath $BruteOnePath -BruteAuthErr $BruteAuthErr `
-    -AuthRegex $AuthPathRegex -RatePerMin $ScanRatePerMin `
-    -Err5xxWeight $Scan5xxWeight -RateWindowMin $ScanRateWindowMin `
-    -BrutePost $BrutePost -LoginFormRegex $LoginFormRegex `
-    -BruteAuthVariety $BruteAuthVariety -AuthSuccessRatioMax $AuthSuccessRatioMax `
-    -ApiAuthRegex $ApiAuthRegex -SigRegex $ScanSigRegex -ExploitRegex $ScanExploitRegex `
-    -ProxyRegex $ScanProxyRegex -BadMethodRegex $ScanBadMethodRegex -ProtoRegex $ScanProtoRegex
+$scanConfig = Resolve-ScanConfig -MinTotal $ScanMinTotal -RateWindowMin $ScanRateWindowMin `
+    -RatePerMin $ScanRatePerMin -MinPath $ScanMinPath -Count404 $Scan404Count `
+    -Ratio200 $Scan200Ratio -ErrCount $ScanErrCount -ErrRatio $ScanErrRatio `
+    -Err5xxWeight $Scan5xxWeight -BrutePath $BruteOnePath -BrutePost $BrutePost `
+    -BruteAuthErr $BruteAuthErr -LoginFormRegex $LoginFormRegex -SigRegex $ScanSigRegex `
+    -ExploitRegex $ScanExploitRegex -ProxyRegex $ScanProxyRegex -BadMethodRegex $ScanBadMethodRegex `
+    -ProtoRegex $ScanProtoRegex -BruteAuthVariety $BruteAuthVariety -AuthSuccessRatioMax $AuthSuccessRatioMax `
+    -AuthRegex $AuthPathRegex -ApiAuthRegex $ApiAuthRegex
 
 # ログを集計・判定し、該当IP→分類(A/B/C/S/L) のマップを取得（Get-ScanCategoryMap）。抽出IPの昇順リストはそのキーから得る。
 $categoryMap   = Get-ScanCategoryMap -Log $log -Config $scanConfig

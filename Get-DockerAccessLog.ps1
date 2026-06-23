@@ -3,7 +3,7 @@
   EC2 の docker compose ログを SSH 取得し、プライベートIP除外・IPマスキング後に整形・集計して出力する。
   出力① ログファイル：整形済みログ本文。
   出力② xlsx：日別×ステータス別集計（件数・Total・ユニークIP）。
-  出力③ additional-exclude-ip.txt：スキャンと判定したIPを抽出（exclude-ip.txt にも追記し、判定別(A〜C)の累計件数と合計を集計コメントとして付加。0件なら生成しない）。
+  出力③ additional-exclude-ip.txt：スキャンと判定したIPを抽出（exclude-ip.txt にも追記し、判定別(A/B/C/S/L)の累計件数と合計を集計コメントとして付加。0件なら生成しない）。
   ※ 接続情報は env.ps1、xlsx 出力ヘルパーは Write-XlsxSummary.ps1、スキャン検知・除外リストヘルパーは ScanExclude.ps1（いずれも同フォルダ）。
 #>
 
@@ -263,8 +263,8 @@ try {
 }
 
 # 追加除外IPの抽出。ログ本文をIP別に集計し、「スキャン」と判定した送信元IPを抽出する。
-# 集計・判定（A〜Cの3種・しきい値・パス正規化など）の詳細は ScanExclude.ps1 に集約。しきい値は env.ps1 で上書き可。
-# 抽出結果は additional-exclude-ip.txt（IP昇順）へ書き出し、exclude-ip.txt にも追記する（判定別(A〜C)の累計件数と合計を集計コメントとして付加）。
+# 集計・判定（A/B/C/S/L の各種・しきい値・パス正規化など）の詳細は ScanExclude.ps1 に集約。しきい値は env.ps1 で上書き可。
+# 抽出結果は additional-exclude-ip.txt（IP昇順）へ書き出し、exclude-ip.txt にも追記する（判定別(A/B/C/S/L)の累計件数と合計を集計コメントとして付加）。
 # 0件のときは exclude-ip.txt は変更せず、additional-exclude-ip.txt も生成しない（前回分が残っていれば削除）。
 
 # しきい値設定を組み立てる（env.ps1 の上書き値を渡し、未設定は ScanExclude.ps1 側の既定値で補完）。
@@ -272,9 +272,13 @@ $scanConfig = Resolve-ScanConfig -MinTotal $ScanMinTotal -MinPath $ScanMinPath `
     -Count404 $Scan404Count -Ratio200 $Scan200Ratio -ErrCount $ScanErrCount `
     -ErrRatio $ScanErrRatio -BrutePath $BruteOnePath -BruteAuthErr $BruteAuthErr `
     -AuthRegex $AuthPathRegex -RatePerMin $ScanRatePerMin `
-    -Err5xxWeight $Scan5xxWeight -RateWindowMin $ScanRateWindowMin
+    -Err5xxWeight $Scan5xxWeight -RateWindowMin $ScanRateWindowMin `
+    -BrutePost $BrutePost -LoginFormRegex $LoginFormRegex `
+    -BruteAuthVariety $BruteAuthVariety -AuthSuccessRatioMax $AuthSuccessRatioMax `
+    -ApiAuthRegex $ApiAuthRegex -SigRegex $ScanSigRegex -ExploitRegex $ScanExploitRegex `
+    -ProxyRegex $ScanProxyRegex -BadMethodRegex $ScanBadMethodRegex -ProtoRegex $ScanProtoRegex
 
-# ログを集計・判定し、該当IP→分類(A/B/C) のマップを取得（Get-ScanCategoryMap）。抽出IPの昇順リストはそのキーから得る。
+# ログを集計・判定し、該当IP→分類(A/B/C/S/L) のマップを取得（Get-ScanCategoryMap）。抽出IPの昇順リストはそのキーから得る。
 $categoryMap   = Get-ScanCategoryMap -Log $log -Config $scanConfig
 $additionalIps = Sort-ScanIp -Ip @($categoryMap.Keys)
 

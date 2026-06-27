@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>horikawatakato.github.io</title>
+  <style>
+    :root {
+      --bg: #f6f8fa;
+      --card: #ffffff;
+      --text: #1a1d21;
+      --muted: #444c55;
+      --accent: #0969da;
+      --border: #e2e4e8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 18px; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", "Hiragino Sans", "Noto Sans JP", sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.85;
+      letter-spacing: .01em;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      min-height: 100vh;
+    }
+    .wrap {
+      width: 100%;
+      max-width: 919px;
+      margin: 0 auto;
+      padding: 28px 24px 72px;
+    }
+
+    /* Hero */
+    .hero {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .hero h1 { font-size: 2.4rem; letter-spacing: -.02em; }
+    .hero p { color: var(--muted); margin-top: 6px; font-size: 1.05rem; }
+
+    /* Section heading */
+    .section-title {
+      font-size: .8rem; font-weight: 700; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--muted);
+      margin-bottom: 18px; padding-left: 2px;
+    }
+
+    /* Project card */
+    .project {
+      width: auto;
+      margin: 0 auto;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 36px 34px 24px;
+      box-shadow: 0 1px 3px rgba(0,0,0,.04);
+    }
+    .project > :last-child { margin-bottom: 0; }
+    .project h3 { font-size: 2.00rem; letter-spacing: -.01em; line-height: 1.2; }
+
+    /* Title + description + primary action */
+    .desc-row {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 14px;
+      margin: 0 0 24px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+    .project .desc { color: var(--muted); margin: 0; flex: 0 1 auto; font-size: 1.1rem; }
+    /* Wide: buttons become grid items — アプリ centered (col 2), GitHub right (col 3) */
+    .desc-row .btn-group { display: contents; }
+    .desc-row .btn-group > .btn { grid-column: 2; }
+    .desc-row .btn-group > .repo-btn { grid-column: 3; justify-self: end; }
+
+    .subhead {
+      font-size: 1.5rem; font-weight: 700; color: var(--text);
+      margin: 24px 0 10px; letter-spacing: .02em;
+    }
+    .features { list-style: none; margin: 0 0 24px; }
+    .features li {
+      position: relative; padding-left: 22px; color: var(--muted);
+      font-size: 1rem; line-height: 1.8; margin-bottom: 7px;
+      white-space: nowrap;
+    }
+    .features li::before {
+      content: ""; position: absolute; left: 4px; top: .78em;
+      width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+    }
+
+    .tags { display: flex; flex-wrap: wrap; gap: 9px; margin-bottom: 28px; width: 0; min-width: 100%; }
+    .tag-break { flex-basis: 100%; width: 100%; height: 0; margin: 0; }
+    .tag {
+      font-size: 0.90rem; font-weight: 600; color: var(--accent);
+      background: rgba(9,105,218,.08);
+      border-radius: 999px; padding: 5px 13px;
+    }
+
+    .links { display: flex; flex-wrap: wrap; gap: 10px; }
+
+    /* Button — clearly tappable: solid fill, depth, icon, press feedback */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      font-size: 1.1rem; font-weight: 800; line-height: 1.4; text-decoration: none;
+      letter-spacing: .01em;
+      padding: 15px 28px; min-height: 52px; border-radius: 12px;
+      cursor: pointer; user-select: none; white-space: nowrap;
+      transition: transform .12s ease, box-shadow .15s ease, background .15s ease, border-color .15s ease;
+    }
+    .btn .btn-icon { width: 24px; height: 24px; flex: 0 0 auto; }
+
+    /* Primary: filled blue gradient with a lift shadow + glow so it reads as a prominent 3D CTA */
+    .btn-primary {
+      background: linear-gradient(180deg, #2b86f0 0%, var(--accent) 55%, #0860ca 100%);
+      color: #fff;
+      border: 1px solid #0860ca;
+      box-shadow: 0 3px 0 #0a4ea8, 0 8px 22px rgba(9,105,218,.45);
+      animation: btn-glow 2.4s ease-in-out infinite;
+    }
+    @keyframes btn-glow {
+      0%, 100% { box-shadow: 0 3px 0 #0a4ea8, 0 8px 22px rgba(9,105,218,.42); }
+      50%      { box-shadow: 0 3px 0 #0a4ea8, 0 10px 30px rgba(9,105,218,.62); }
+    }
+    .btn-primary:hover {
+      background: linear-gradient(180deg, #3a92f7 0%, #0b74ec 55%, #0860ca 100%);
+      box-shadow: 0 4px 0 #0a4ea8, 0 14px 34px rgba(9,105,218,.6);
+      transform: translateY(-2px);
+      animation: none;
+    }
+    .btn-primary:active {
+      background: #0860ca;
+      box-shadow: 0 1px 0 #0a4ea8, 0 3px 8px rgba(9,105,218,.4);
+      transform: translateY(2px);
+      animation: none;
+    }
+    .btn-primary:focus-visible {
+      outline: 3px solid rgba(9,105,218,.5); outline-offset: 3px;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .btn-primary { animation: none; }
+    }
+
+    /* Ghost: outlined so it still looks like a button, not a text link */
+    .btn-ghost {
+      background: #fff; color: var(--accent);
+      border: 1.5px solid var(--accent);
+      box-shadow: 0 1px 2px rgba(0,0,0,.05);
+    }
+    .btn-ghost:hover {
+      background: rgba(9,105,218,.06);
+      box-shadow: 0 4px 12px rgba(9,105,218,.18);
+      transform: translateY(-1px);
+    }
+    .btn-ghost:active { transform: translateY(2px); box-shadow: 0 1px 2px rgba(0,0,0,.06); }
+    .btn-ghost:focus-visible { outline: 3px solid rgba(9,105,218,.35); outline-offset: 2px; }
+
+    /* Detail sections (コンテナ構成 / CI/CD) */
+    .section {
+      margin: 28px auto 0;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 34px 34px;
+      box-shadow: 0 1px 3px rgba(0,0,0,.04);
+    }
+    .section h2 {
+      font-size: 1.5rem; letter-spacing: -.01em; line-height: 1.3;
+      margin-bottom: 20px;
+    }
+    .section p { color: var(--muted); margin-bottom: 14px; }
+    .section p:last-child { margin-bottom: 0; }
+
+    /* Container table */
+    .ctable {
+      width: 100%; border-collapse: collapse;
+      margin-bottom: 24px; font-size: .98rem;
+    }
+    .ctable th, .ctable td {
+      border: 1px solid var(--border);
+      padding: 13px 15px; text-align: left; vertical-align: top;
+    }
+    .ctable th {
+      background: rgba(9,105,218,.06);
+      font-weight: 700; color: var(--text); white-space: nowrap;
+    }
+    .ctable td.role-name {
+      white-space: nowrap; font-weight: 700; color: var(--accent);
+    }
+    .ctable ul { list-style: none; margin: 0; padding: 0; }
+    .ctable li {
+      position: relative; padding-left: 18px; color: var(--muted);
+      line-height: 1.75; margin-bottom: 4px;
+    }
+    .ctable li:last-child { margin-bottom: 0; }
+    .ctable li::before {
+      content: ""; position: absolute; left: 2px; top: .72em;
+      width: 5px; height: 5px; border-radius: 50%; background: var(--accent);
+    }
+
+    .note {
+      color: var(--muted); margin-bottom: 22px;
+      padding: 14px 16px; background: var(--bg);
+      border-left: 3px solid var(--accent); border-radius: 6px;
+    }
+    .note strong { color: var(--text); display: block; margin-bottom: 4px; }
+
+    /* CI/CD bullets */
+    .section ul.bullets { list-style: none; margin: 0 0 18px; }
+    .section ul.bullets li {
+      position: relative; padding-left: 22px; color: var(--muted);
+      line-height: 1.8; margin-bottom: 7px;
+    }
+    .section ul.bullets li::before {
+      content: ""; position: absolute; left: 4px; top: .78em;
+      width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+    }
+    .section ul.bullets li strong { color: var(--text); }
+
+    /* In-card section headings (コンテナ構成 / CI/CD) */
+    .block-title {
+      font-size: 1.5rem; letter-spacing: -.01em; line-height: 1.3;
+      margin: 24px 0 16px;
+    }
+    .diagram {
+      display: block; width: 100%; height: auto;
+      margin-top: 10px; border: 1px solid var(--border); border-radius: 10px;
+      background: #fff;
+    }
+
+    .site-footer {
+      text-align: left; color: var(--muted);
+      font-size: .9rem; line-height: 1.7; margin-top: 40px;
+      padding-left: 34px;
+    }
+
+    /* Narrow screens: revert to flexible full-width layout (no horizontal overflow) */
+    @media (max-width: 900px) {
+      .project { width: auto; }
+      .features li { white-space: normal; }
+      .tags { width: auto; min-width: 0; }
+      /* Not enough room: title on its own line, both buttons wrap below as a group */
+      .desc-row { display: flex; flex-wrap: wrap; justify-content: space-between; }
+      .desc-row .btn-group { display: flex; flex-wrap: wrap; gap: 10px; }
+    }
+    @media (max-width: 480px) {
+      html { font-size: 17px; }
+      .wrap { padding: 40px 16px 56px; }
+      .project { padding: 26px 20px 18px; }
+      .section { padding: 26px 20px; }
+      .site-footer { padding-left: 20px; }
+      .hero h1 { font-size: 2rem; }
+      .project h3 { font-size: 1.4rem; }
+      .block-title, .subhead { font-size: 1.3rem; }
+      .desc-row .btn-group { flex-direction: column; width: 100%; }
+      .desc-row .btn { width: 100%; }
+      .ctable th, .ctable td { padding: 10px 11px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <!-- single-card layout -->
+    <header class="hero">
+      <h1>Horikawa Takato</h1>
+    </header>
+
+    <article class="project">
+      <div class="desc-row">
+        <h3>日数計算機</h3>
+        <div class="btn-group">
+          <a class="btn btn-primary" href="https://datecalc.duckdns.org/" target="_blank" rel="noopener">
+            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+              <polyline points="15 3 21 3 21 9"/>
+              <line x1="10" y1="14" x2="21" y2="3"/>
+            </svg>
+            アプリを使う
+          </a>
+          <a class="btn btn-primary repo-btn" href="https://github.com/horikawatakato/datecalc" target="_blank" rel="noopener">
+            <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 2C6.48 2 2 6.58 2 12.26c0 4.5 2.87 8.32 6.84 9.67.5.09.68-.22.68-.49 0-.24-.01-.87-.01-1.71-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.49-1.11-1.49-.91-.64.07-.62.07-.62 1 .07 1.53 1.06 1.53 1.06.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.36-2.22-.26-4.55-1.14-4.55-5.07 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.28 2.75 1.05A9.36 9.36 0 0 1 12 7.07c.85 0 1.71.12 2.51.34 1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.94-2.34 4.81-4.57 5.06.36.32.68.94.68 1.91 0 1.38-.01 2.49-.01 2.83 0 .27.18.59.69.49A10.02 10.02 0 0 0 22 12.26C22 6.58 17.52 2 12 2z"/>
+            </svg>
+            GitHubリポジトリ
+          </a>
+        </div>
+      </div>
+
+      <p class="subhead">主な機能</p>
+      <ul class="features">
+        <li>現在の日付と入力日付の差分を日数で表示（365日以上は年数も併記）</li>
+        <li>紀元前999年〜西暦9999年に対応（紀元前の年は負数で入力）</li>
+        <li>曜日の表示</li>
+      </ul>
+
+      <p class="subhead">主な使用技術</p>
+      <ul class="features">
+        <li>AWS EC2でNginxをリバースプロキシかつTLS終端に使用したコンテナ構成を構築</li>
+        <li>GitHub Actionsでテスト→ビルド→プッシュ→デプロイを自動化したCI/CDパイプラインを構築</li>
+      </ul>
+
+      <h2 class="block-title">コンテナ構成</h2>
+      <svg class="diagram" viewBox="0 0 460 648" role="img" aria-label="コンテナ構成図" xmlns="http://www.w3.org/2000/svg">
+        <style>
+          .ca-svg text{font-family:'Hiragino Kaku Gothic ProN','Hiragino Sans','Yu Gothic',Meiryo,'Noto Sans CJK JP','Noto Sans JP',sans-serif;}
+          .ca-svg .th{font-size:14px;font-weight:500;}
+          .ca-svg .ts{font-size:12px;font-weight:400;}
+        </style>
+        <g class="ca-svg">
+        <rect x="0" y="0" width="460" height="648" fill="#ffffff"/>
+        <g transform="translate(-110 -26)">
+        <rect x="150" y="122" width="380" height="456" rx="10" fill="#EF9F27" fill-opacity="0.10" stroke="#EF9F27" stroke-width="1.5"/>
+        <rect x="182" y="154" width="316" height="106" rx="8" fill="#1D9E75" fill-opacity="0.12" stroke="#1D9E75" stroke-width="1.4"/>
+        <rect x="182" y="292" width="316" height="266" rx="8" fill="#1D9E75" fill-opacity="0.12" stroke="#1D9E75" stroke-width="1.4"/>
+        <text class="th" x="158" y="138" fill="#B5740E">AWS EC2</text>
+        <text class="th" x="190" y="170" fill="#0F6E56">proxyコンテナ</text>
+        <text class="th" x="190" y="308" fill="#0F6E56">appコンテナ</text>
+        <line x1="340" y1="88" x2="340" y2="186" stroke="#1F2328" stroke-width="1.8"/>
+        <path d="M334 177 L340 186 L346 177" fill="none" stroke="#1F2328" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        <text class="th" x="348" y="142" fill="#1F2328">HTTPS443</text>
+        <line x1="340" y1="228" x2="340" y2="324" stroke="#1F2328" stroke-width="1.8"/>
+        <path d="M334 315 L340 324 L346 315" fill="none" stroke="#1F2328" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        <text class="th" x="348" y="280" fill="#1F2328">HTTP8000</text>
+        <line x1="340" y1="366" x2="340" y2="404" stroke="#1F2328" stroke-width="1.8"/>
+        <path d="M334 395 L340 404 L346 395" fill="none" stroke="#1F2328" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        <line x1="340" y1="446" x2="340" y2="484" stroke="#1F2328" stroke-width="1.8"/>
+        <path d="M334 475 L340 484 L346 475" fill="none" stroke="#1F2328" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        <line x1="340" y1="526" x2="340" y2="612" stroke="#1F2328" stroke-width="1.8"/>
+        <path d="M334 603 L340 612 L346 603" fill="none" stroke="#1F2328" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        <rect x="209" y="46" width="262" height="42" rx="6" fill="#ffffff" stroke="#1F2328" stroke-width="1.6"/>
+        <text class="th" x="225" y="63" fill="#1F2328">ブラウザ（DateCalc.html）</text>
+        <text class="ts" x="225" y="79" fill="#1F2328">日付を入力して送信</text>
+        <rect x="209" y="186" width="262" height="42" rx="6" fill="#ffffff" stroke="#1F2328" stroke-width="1.6"/>
+        <text class="th" x="225" y="203" fill="#1F2328">Nginx（nginx.conf）</text>
+        <text class="ts" x="225" y="219" fill="#1F2328">リクエストを受信してappコンテナへ送信</text>
+        <rect x="209" y="324" width="262" height="42" rx="6" fill="#ffffff" stroke="#1F2328" stroke-width="1.6"/>
+        <text class="th" x="225" y="341" fill="#1F2328">Gunicorn（wsgi.py）</text>
+        <text class="ts" x="225" y="357" fill="#1F2328">Flaskを起動して実行</text>
+        <rect x="209" y="404" width="262" height="42" rx="6" fill="#ffffff" stroke="#1F2328" stroke-width="1.6"/>
+        <text class="th" x="225" y="421" fill="#1F2328">Flask（DateCalc_server.py）</text>
+        <text class="ts" x="225" y="437" fill="#1F2328">リクエストを計算ロジックへ送信</text>
+        <rect x="209" y="484" width="262" height="42" rx="6" fill="#ffffff" stroke="#1F2328" stroke-width="1.6"/>
+        <text class="th" x="225" y="501" fill="#1F2328">計算ロジック（DateCalc.py）</text>
+        <text class="ts" x="225" y="517" fill="#1F2328">日付の差分を計算して結果を応答</text>
+        <rect x="209" y="612" width="262" height="42" rx="6" fill="#ffffff" stroke="#1F2328" stroke-width="1.6"/>
+        <text class="th" x="225" y="629" fill="#1F2328">ブラウザ（DateCalc.html）</text>
+        <text class="ts" x="225" y="645" fill="#1F2328">計算結果を表示</text>
+        </g>
+        </g>
+      </svg>
+
+      <h2 class="block-title">GitHub Actions（CI/CD）</h2>
+      <svg class="diagram" viewBox="0 0 556 1106" role="img" aria-label="CI/CDワークフロー図" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0" y="0" width="556" height="1106" fill="#ffffff"/>
+        <rect x="74" y="20" width="408" height="70" rx="4" fill="#1f3a5f" stroke="#1f3a5f" stroke-width="2"/>
+        <text x="278.0" y="52" font-size="22" fill="#ffffff" font-weight="bold" text-anchor="middle" font-family="Hiragino Kaku Gothic ProN, Hiragino Sans, Yu Gothic, Meiryo, Noto Sans CJK JP, Noto Sans JP, sans-serif">トリガー</text>
+        <text x="278.0" y="76" font-size="15" fill="#dde6f2" font-weight="normal" text-anchor="middle" font-family="Hiragino Kaku Gothic ProN, Hiragino Sans, Yu Gothic, Meiryo, Noto Sans CJK JP, Noto Sans JP, sans-serif">on: push (main) / on: pull_request (main)</text>
+        <line x1="278" y1="90" x2="278" y2="137" stroke="#555555" stroke-width="2.5"/>
+        <polygon points="271,137 285,137 278,150" fill="#555555"/>
+        <rect x="74" y="150" width="408" height="156" rx="8" fill="#eef3fa" stroke="#4a6fa5" stroke-width="1.6"/>
+        <text x="92" y="180" font-size="17" fill="#1a1a1a" font-family="Hiragino Kaku Gothic ProN, Hiragino Sans, Yu Gothic, Meiryo, Noto Sans CJK JP, Noto Sans JP, sans-serif"><tspan font-weight="bold">test</tspan></text>
+        <line x1="92" y1="194" x2="464" y2="194" stroke="#4a6fa5" stroke-width="1"/>
+        <text x="92" y="218" font-size="14" fill="#1a1a1a" font-weight="normal" text-anchor="start" font-family="Hiragino Kaku Gothic ProN, Hiragino Sans, Yu Gothic, Meiryo, Noto Sans CJK JP, Noto Sans JP, sans-serif">1. リポジトリをチェックアウト</text>
+        <text x="92" y="240" font-size="14" fill="#1a1a1a" font-weight="normal" text-anchor="start" font-family="Hiragino Kaku Gothic ProN, Hiragino Sans, Yu Gothic, Meiryo, Noto Sans CJK JP, Noto Sans JP, sans-serif">2. Python 3.12をセットアップ</text>
+        <text x="92" y="262" font-size="14" fill="#1a1a1a" font-weight="normal" text-anchor="start" font-family="Hiragino Kaku Gothic ProN, Hiragino Sans, Yu Gothic, Meiryo, Noto Sans CJK JP, Noto Sans JP, sans-serif">3. 依存パッケージをインストール</text>
+        <text x="92" y="284" font-size="14" fill="#1a1a1a" font-weight="normal" text-anchor="start" font-family="Hiragino Kaku Gothic ProN, Hiragino Sans, Yu Gothic, Meiryo, Noto Sans CJK JP, Noto Sans JP, sans-serif">4. pytest実行（カバレッジ100%必須）</text>
+        <line x1="278" y1="306" x2="278" y2="353" stroke="#555555" stroke-width="2.5"/>
+        <polygon points="271,353 285,353 278,366" fill="#555555"/>
+        <rect x="74" y="366" width="408" height="178" rx="8" fill="#eef3fa" stroke="#4a6fa5" stroke-width="1.6"/>
+        <text x="92" y="396" font-size="17" fill="#1a1a1a" font-family="Hiragino Kaku Gothic ProN, Hiragino Sans, Yu Gothic, Meiryo, Noto Sans CJK JP, Noto Sans JP, sans-serif"><tspan font-weight="bold">build</tspan></text>
+        <line x1="92" y1="410" x2="464" y2="410" stroke="#4a6fa5" stroke-width="1"/>
+        <text x="92" y="434" font-size="14" fill="#1a1a1a" font-weight="normal" text-anchor="start" font-family="Hiragino Kaku Gothic ProN, Hiragino Sans, Yu Gothic, Meiryo, Noto Sans CJK JP, Noto Sans JP, sans-serif">5. リポジトリをチェックアウト</text>
+        <text x="92" y="456" font-size="14" fill="#1a1a1a" font-weight="normal" text-anchor="start" font-family="Hiragino Kaku Gothic ProN, Hiragino Sans, Yu Gothic, Meiryo, Noto Sans CJK JP, Noto Sans JP, sans-serif">6. app / proxyのタグ・ラベルを生成</text>
+        <text x="92" y="478" font-size="14" fill="#1a1a1a" font-weight="normal" text-anchor="start" font-family="Hiragino Kaku Gothic ProN, Hiragino Sans, Yu Gothic, Meiryo, Noto Sans CJK JP, Noto Sans JP, sans-serif">7. Docker Buildxをセットアップ</text>
+        <text x="92" y="500" font-size="14" fill="#1a1a1a" font-weight="normal" text-anchor="start" font-family="Hiragino Kaku Gothic ProN, Hiragino Sans, Yu Gothic, Meiryo, Noto Sans CJK JP, Noto Sans JP, sans-serif">8. app / proxyをbuild → tar出力</text>
+        <text x="92" y="522" font-size="14" fill="#1a1a1a" font-weight="normal" text-anchor="start" font-family="Hiragino Kaku Gothic ProN, Hiragino Sans, Yu Gothic, Meiryo, Noto Sans CJK JP, Noto Sans JP, sans-serif">9. tarをartifactにアップロード（pull_request時スキップ）</text>
+        <line x1="278" y1="544" x2="278" y2="591" stroke="#555555" stroke-width="2.5"/>
+        <polygon points="271,591 285,591 278,604" fill="#555555"/>
+        <rect x="74" y="604" width="408" height="134" rx="8" fill="#eef3fa" stroke="#4a6fa5" stroke-width="1.6"/>
+        <text x="92" y="634" font-size="17" fill="#1a1a1a" font-family="Hiragino Kaku Gothic ProN, Hiragino Sans, Yu Gothic, Meiryo, Noto Sans CJK JP, Noto Sans JP, sans-serif"><tspan font-weight="bold">push</tspan><tspan font-weight="normal">（pull_request時スキップ）</tspan></text>
+        <line x1="92" y1="648" x2="464" y2="648" stroke="#4a6fa5" stroke-width="1"/>
+        <text x="92" y="672" font-size="14" fill="#1a1a1a" font-weight="normal" text-anchor="start" font-family="Hiragino Kaku Gothic ProN, Hiragino Sans, Yu Gothic, Meiryo, Noto Sans CJK JP, Noto Sans JP, sans-serif">10. GHCRにログイン</text>
+        <text x="92" y="694" font-size="14" fill="#1a1a1a" font-weight="normal" text-anchor="start" font-family="Hiragino Kaku Gothic ProN, Hiragino Sans, Yu Gothic, Meiryo, Noto Sans CJK JP, Noto Sans JP, sans-serif">11. app / proxyのtar artifactを取得 → docker load</text>
+        <text x="92" y="716" font-size="14" fill="#1a1a1a" font-weight="normal" text-anchor="start" font-family="Hiragino Kaku Gothic ProN, Hiragino Sans, Yu Gothic, Meiryo, Noto Sans CJK JP, Noto Sans JP, sans-serif">12. 全タグをGHCRへpush → docker inspectでdigest取得</text>
+        <line x1="278" y1="738" x2="278" y2="785" stroke="#555555" stroke-width="2.5"/>
+        <polygon points="271,785 285,785 278,798" fill="#555555"/>
+        <rect x="74" y="798" width="408" height="288" rx="8" fill="#fdf4e6" stroke="#d99633" stroke-width="1.6"/>
+        <text x="92" y="828" font-size="17" fill="#1a1a1a" font-family="Hiragino Kaku Gothic ProN, Hiragino Sans, Yu Gothic, Meiryo, Noto Sans CJK JP, Noto Sans JP, sans-serif"><tspan font-weight="bold">deploy</tspan><tspan font-weight="normal">（pull_request時スキップ）</tspan></text>
+        <line x1="92" y1="842" x2="464" y2="842" stroke="#d99633" stroke-width="1"/>
+        <text x="92" y="866" font-size="14" fill="#1a1a1a" font-weight="normal" text-anchor="start" font-family="Hiragino Kaku Gothic ProN, Hiragino Sans, Yu Gothic, Meiryo, Noto Sans CJK JP, Noto Sans JP, sans-serif">13. AWS認証（OIDCでAssumeRole）</text>
+        <text x="92" y="888" font-size="14" fill="#1a1a1a" font-weight="normal" text-anchor="start" font-family="Hiragino Kaku Gothic ProN, Hiragino Sans, Yu Gothic, Meiryo, Noto Sans CJK JP, Noto Sans JP, sans-serif">14. リポジトリをチェックアウト</text>
+        <text x="92" y="910" font-size="14" fill="#1a1a1a" font-weight="normal" text-anchor="start" font-family="Hiragino Kaku Gothic ProN, Hiragino Sans, Yu Gothic, Meiryo, Noto Sans CJK JP, Noto Sans JP, sans-serif">15. app / proxyをpushのdigestに固定</text>
+        <text x="92" y="932" font-size="14" fill="#1a1a1a" font-weight="normal" text-anchor="start" font-family="Hiragino Kaku Gothic ProN, Hiragino Sans, Yu Gothic, Meiryo, Noto Sans CJK JP, Noto Sans JP, sans-serif">16. SSM send-commandをEC2へ送信</text>
+        <text x="92" y="954" font-size="14" fill="#1a1a1a" font-weight="normal" text-anchor="start" font-family="Hiragino Kaku Gothic ProN, Hiragino Sans, Yu Gothic, Meiryo, Noto Sans CJK JP, Noto Sans JP, sans-serif">17. compose.ymlとdigest固定.envを配置 → up -d</text>
+        <text x="92" y="976" font-size="14" fill="#1a1a1a" font-weight="normal" text-anchor="start" font-family="Hiragino Kaku Gothic ProN, Hiragino Sans, Yu Gothic, Meiryo, Noto Sans CJK JP, Noto Sans JP, sans-serif">18. スモークテスト（/api/todayへ疎通確認）</text>
+        <text x="92" y="998" font-size="14" fill="#1a1a1a" font-weight="normal" text-anchor="start" font-family="Hiragino Kaku Gothic ProN, Hiragino Sans, Yu Gothic, Meiryo, Noto Sans CJK JP, Noto Sans JP, sans-serif">19. 検証失敗時は直前の構成へロールバック</text>
+        <text x="92" y="1020" font-size="14" fill="#1a1a1a" font-weight="normal" text-anchor="start" font-family="Hiragino Kaku Gothic ProN, Hiragino Sans, Yu Gothic, Meiryo, Noto Sans CJK JP, Noto Sans JP, sans-serif">20. 成功時は旧イメージを削除して滞留防止</text>
+        <text x="92" y="1042" font-size="14" fill="#1a1a1a" font-weight="normal" text-anchor="start" font-family="Hiragino Kaku Gothic ProN, Hiragino Sans, Yu Gothic, Meiryo, Noto Sans CJK JP, Noto Sans JP, sans-serif">21. コマンド完了をポーリングし成否を判定</text>
+        <text x="92" y="1064" font-size="14" fill="#1a1a1a" font-weight="normal" text-anchor="start" font-family="Hiragino Kaku Gothic ProN, Hiragino Sans, Yu Gothic, Meiryo, Noto Sans CJK JP, Noto Sans JP, sans-serif">22. インスタンスIDとイメージをジョブサマリーに出力</text>
+      </svg>
+    </article>
+
+    <footer class="site-footer">
+      Copyright (c) 2026 Horikawa Takato
+    </footer>
+  </div>
+</body>
+</html>
